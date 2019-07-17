@@ -21,6 +21,13 @@ android {
         }
     }
 
+    externalNativeBuild {
+        cmake {
+            // 指定总CMake编译配置文件路径
+            path "src/main/cpp/CMakeLists.txt"
+        }
+    }
+
 }
 
 dependencies {
