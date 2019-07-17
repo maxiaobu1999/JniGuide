@@ -1,3 +1,14 @@
+#status表示这是一般的打印信息，我们还可以设置为“ERROR”
+MESSAGE( ERROR "总CMakeList.txt开始执行")
+
+#定义变量及输出
+SET(CMAKE_MODULE_PATH  ${PROJECT_SOURCE_DIR}/cmake)
+MESSAGE( STATUS "项目路径为：${CMAKE_MODULE_PATH}")
+SET(USER_KEY "Hello World")
+MESSAGE( STATUS "定义的变量USER_KEY = ${USER_KEY}.")
+
+
+
 # CMake 最低版本号要求
 cmake_minimum_required(VERSION 3.4.1)
 
@@ -7,13 +18,6 @@ add_library(
         # 指定C源文件的路径
         ../../../cpp-src/hello-jni.c
 )
-
-#find_library( # Sets the name of the path variable.
-#        android-lib
-#
-#        # Specifies the name of the NDK library that
-#        # you want CMake to locate.
-#        android)
 
 find_library(
         log-lib # 设置路径变量名称
@@ -25,3 +29,10 @@ target_link_libraries(hello-jni
 #        ${android-lib}
         ${log-lib}
 )
+
+
+
+
+
+
+
