@@ -15,4 +15,8 @@ public class NativeUtil {
     //使用javac时，使用*.java，把Student.java包含进去
     public  native Student accessStudent(Student student);
 
+
+    //动态注册native   方法
+    public  native void dynamicRegister(String s);
+
 }

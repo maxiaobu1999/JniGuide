@@ -72,6 +72,17 @@ JNIEnv *env, jobject thiz,jobject student) {
     return student;
 }
 
+
+
+
+
+
+//动态注册对应的native方法
+JNIEXPORT void JNICALL Jni_dynamicRegister (JNIEnv *env, jobject thiz,jstring j_str) {
+   const char *c_str = NULL;
+   c_str = (*env)->GetStringUTFChars(env, j_str, NULL);
+   LOGD( "Jni_dynamicRegister方法执行，参数：j_str=%s", c_str);
+}
 //当Android的VM(Virtual Machine)执行到C组件(即*so档)里的System.loadLibrary()函数时，首先会去执行C组件里的JNI_OnLoad()函数。
 //JavaVM *vm  JavaVM是虚拟机在JNI中的表示，一个JVM中只有一个JavaVM对象，这个对象是线程共享的
 //void *reserved:??保留的
@@ -86,6 +97,15 @@ JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *reserved){
         return -1;
     }
     assert(env != NULL);
+    jclass clazz = (*env)->FindClass(env,"com/norman/app/jni/NativeUtil");
+    //Java和JNI函数的绑定表:二维数组，代表着这个class里的每一个native方法所对应的实现的方法
+    JNINativeMethod gMethods[] = {
+        {"dynamicRegister", "(Ljava/lang/String;)V", (void*)Jni_dynamicRegister}
+        };
+    //参数size代表要指定的native的数量
+    int size = ((int) (sizeof(gMethods) / sizeof(gMethods[0])));
+    //注册native方法
+    (*env)->RegisterNatives(env,clazz, gMethods, size);
     LOGD( "JNI_OnLoad执行结束");
   return JNI_VERSION_1_4;
 }

@@ -45,6 +45,12 @@ public class HomeActivity extends AppCompatActivity {
         });
 
 
+        addButton("nativeUtil.dynamicRegister").setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nativeUtil.dynamicRegister("11111111");
+            }
+        });
 
     }
 

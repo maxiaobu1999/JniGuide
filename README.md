@@ -66,3 +66,19 @@ JavaVM是虚拟机在JNI中的表示，一个JVM中只有一个JavaVM对象，�
 ##手动注册调native方法：用 JNI 提供的 RegisterNatives 函数，将本地函数注册到 JVM 中。
 JNI在加载时，会调用JNI_OnLoad，而卸载时会调用JNI_UnLoad，所以我们可以通过在JNI_OnLoad里面注册我们的native函数来实现JNI。
 当Android的VM(Virtual Machine)执行到C组件(即*so档)里的System.loadLibrary()函数时，首先会去执行C组件里的JNI_OnLoad()函数。
+
+
+
+
+##最后附上java类型与jni中字符对应的关系表：
+  Java 类型	符号
+  Boolean	Z
+  Byte	B
+  Char	C
+  Short	S
+  Int	I
+  Long	J
+  Float	F
+  Double	D
+  Void	V
+  objects对象	以L开头，以;结尾，中间是用/ 隔开的包及类名。比如：Ljava/lang/String;如果是嵌套类，则用$来表示嵌套。例如 (Ljava/lang/String;Landroid/os/FileUtils$FileStatus;)Z
