@@ -2,7 +2,7 @@ package com.norman.app.jni;
 
 public class Student {
     public String name;
-    public int age;
+    public static int age;
 
     public Student(String name, int age) {
         this.name = name;

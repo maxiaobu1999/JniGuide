@@ -41,6 +41,16 @@ JNIEnv *env, jobject thiz,jobject student) {
     jstring j_newName = (*env)->NewStringUTF(env, "李四");
     (*env)->SetObjectField(env, student, name_fid, j_newName);
 
+
+    //访问静态变量
+    //获取ClassField类静态变量age的属性ID
+    jfieldID age_fid = (*env)->GetStaticFieldID(env, clazz, "age", "I");
+    jint age = (*env)->GetStaticIntField(env,clazz,age_fid);
+    LOGD( "age=%d", age);
+    (*env)->SetStaticIntField(env, clazz, age_fid, 80);
+
+    // 删除属部引用
+    (*env)->DeleteLocalRef(env,clazz);
     return student;
 }
 

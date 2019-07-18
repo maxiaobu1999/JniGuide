@@ -40,6 +40,7 @@ public class HomeActivity extends AppCompatActivity {
                 Student student = new Student("张三", 11);
                 Student studentNew = nativeUtil.accessStudent(student);
                 Log.d(TAG, "studentNew.name:" + studentNew.name);
+                Log.d(TAG, "studentNew.age:" + Student.age);
             }
         });
 
