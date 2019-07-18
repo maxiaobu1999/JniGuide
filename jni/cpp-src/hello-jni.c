@@ -2,6 +2,7 @@
 #include <jni.h>
 #include "com_norman_app_jni_NativeUtil.h"
 #include "util/log.h"
+#include <assert.h>
 
 
 /**
@@ -76,10 +77,17 @@ JNIEnv *env, jobject thiz,jobject student) {
 //void *reserved:??保留的
 //return：告诉VM此C组件使用那一个JNI版本。
 JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *reserved){
-
-    LOGD( "JNI_OnLoad执行");
-
-    return JNI_VERSION_1_4;
+    LOGD( "JNI_OnLoad执行开始");
+    //JNIEnv类型是一个指向全部JNI方法的指针。该指针只在创建它的线程有效，不能跨线程传递
+    //使用GetEnv 获取 JNIEnv
+    JNIEnv* env = NULL;
+    //GetEnv()返回当前线程所在的JNIEnv*
+    if ((*vm)->GetEnv(vm, (void**) &env, JNI_VERSION_1_4) != JNI_OK) {
+        return -1;
+    }
+    assert(env != NULL);
+    LOGD( "JNI_OnLoad执行结束");
+  return JNI_VERSION_1_4;
 }
 
 JNIEXPORT void JNI_OnUnload(JavaVM *jvm, void *reserved){
