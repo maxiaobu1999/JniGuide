@@ -49,6 +49,23 @@ JNIEnv *env, jobject thiz,jobject student) {
     LOGD( "age=%d", age);
     (*env)->SetStaticIntField(env, clazz, age_fid, 80);
 
+
+    //访问Java实例构造方法，并创建实例
+    jmethodID mid_construct = (*env)->GetMethodID(env,clazz, "<init>","()V");
+    jobject jstudent_new =  (*env)->NewObject(env,clazz,mid_construct);
+
+    //访问对象实例普通方法
+    //"(Ljava/lang/String;I)V"：参数签名 ()代表无参数   V表示无返回值
+    jmethodID mid_instance = (*env)->GetMethodID(env, clazz, "normalMethod", "(Ljava/lang/String;I)V");
+    jstring str_arg = (*env)->NewStringUTF(env,"我是实例方法");
+    //CallVoidMethod函数的原型:void (JNICALL *CallVoidMethod) (JNIEnv *env, jobject obj, jmethodID methodID, ...);
+    (*env)->CallVoidMethod(env,jstudent_new,mid_instance,str_arg,200);
+
+    //访问Java的静态方法
+    jmethodID mid_static =(*env)->GetStaticMethodID(env,clazz,"staticMethod","(Ljava/lang/String;)Ljava/lang/String;");
+    jobject static_return = (*env)->CallStaticObjectMethod(env,clazz,mid_static, (*env)->NewStringUTF(env,"我是静态方法"));
+
+
     // 删除属部引用
     (*env)->DeleteLocalRef(env,clazz);
     return student;
