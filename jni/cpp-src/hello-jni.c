@@ -1,7 +1,7 @@
 #include <string.h>
 #include <jni.h>
 #include "com_norman_app_NativeUtil.h"
-#include <android/log.h>
+#include "util/log.h"
 
 
 /**
@@ -13,12 +13,10 @@ JNIEnv *env, jobject thiz,
 jshort s, jint i, jlong l, jfloat f,jdouble d, jchar c, jboolean z, jbyte b,
 jstring j_str, jobject jobj, jintArray j_int_arr) {
 
-    //LOGD( "s=%hd, i=%d, l=%ld, f=%f, d=%lf, c=%c, z=%d, b=%d", s, i, (long)l, f, d, c, z, b);
-
-    __android_log_print(ANDROID_LOG_DEBUG, "norman+++:", "s=%hd, i=%d, l=%ld, f=%f, d=%lf, c=%c, z=%d, b=%d", s, i, (long)l, f, d, c, z, b);
+    LOGD( "s=%hd, i=%d, l=%ld, f=%f, d=%lf, c=%c, z=%d, b=%d", s, i, (long)l, f, d, c, z, b);
     const char *c_str = NULL;
     c_str = (*env)->GetStringUTFChars(env, j_str, NULL);
-    __android_log_print(ANDROID_LOG_DEBUG, "norman+++:", "j_str=%s", c_str);
+    LOGD( "j_str=%s", c_str);
     return (*env)->NewStringUTF(env, "Hello from JNI !  Compiled with ABI ");
 }
 
