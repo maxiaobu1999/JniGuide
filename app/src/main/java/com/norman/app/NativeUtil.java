@@ -9,6 +9,7 @@ public class NativeUtil {
 
 
     // 声明 Native 方法
-    public native String hello();
+    public static native String hello(short s, int i, long l, float f, double d, char c,
+                               boolean z, byte b, String str, Object obj, int[] arr);
 
 }

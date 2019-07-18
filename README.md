@@ -35,3 +35,27 @@ CMAKE_CURRENT_LIST_LINE：3
 
 这个变量用来定义自己的 cmake 模块所在的路径，默认为null
 CMAKE_MODULE_PATH
+
+
+
+###############jni
+#JNIEnv
+JNIEnv类型是一个指向全部JNI方法的指针。该指针只在创建它的线程有效，不能跨线程传递
+#jobject thiz
+
+#JavaVM
+JavaVM是虚拟机在JNI中的表示，一个JVM中只有一个JavaVM对象，这个对象是线程共享的。
+
+
+#JVM 查找 native 方法的规则
+##按照 JNI 规范的命名规则
+1\编写Java类
+2\用 javac 命令将.java源文件编译成.class字节码文件
+ javac /Users/v_maqinglong/Documents/AndroidProject/JniGuide/app/src/main/java/com/norman/app/NativeUtil.java -d /Users/v_maqinglong/Documents/AndroidProject/JniGuide/app/src/main/java/
+ -d 表示将编译后的 class 文件放到指定的目录下
+3、用 javah -jni 命令，根据class字节码文件生成.h头文件（-jni 参数是可选的）
+ javah -jni -classpath /Users/v_maqinglong/Documents/AndroidProject/JniGuide/app/src/main/java/ -d ./ com.norman.app.NativeUtil
+###JNIEXPORT和JNICALL
+宏，定义在NDK_ROOT / platforms / android-9 / arch-arm / usr / include / jni.h
+简单理解：说明该函数为JNI函数，在Java虚拟机加载的时候会链接对应的native方法，将函数添加到动态表中
+##调用 JNI 提供的 RegisterNatives 函数，将本地函数注册到 JVM 中。
