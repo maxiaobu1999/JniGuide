@@ -20,23 +20,27 @@ jstring j_str, jobject jobj, jintArray j_int_arr) {
     return (*env)->NewStringUTF(env, "Hello from JNI !  Compiled with ABI ");
 }
 
-//studentFieldIds:结构变量
-//struct fieldIds {
- //   jclass studentClass;
-   // jfieldID name;
-   // jfieldID age;
-//}studentFieldIds;
+
 JNIEXPORT jobject JNICALL Java_com_norman_app_jni_NativeUtil_accessStudent (
 JNIEnv *env, jobject thiz,jobject student) {
+    // 1.获取 Student 类的Class引用
+    //通过object实例获取class
+    //也可以通过完整的类名获取class示例： jclass clazz = (*env)->FindClass(env, "com/norman/app/jni/Student");
+    jclass clazz = (*env)->GetObjectClass(env,student);
 
-    //得java自定义类Student, FindClass的参数,指明的是从source file开始的Student类的路径
-    //studentFieldIds.studentClass = (*env)->FindClass(env, "com/norman/app/jni/Student");
-    //studentFieldIds.name = (*env)->GetFieldID(env, studentFieldIds.studentClass, "name", "Ljava/lang/String;");
-    //LOGD( "studentFieldIds.name=%s",studentFieldIds.name);
+    // 2. 获取 Student 类实例变量 name 的属性ID
+    jfieldID name_fid = (*env)->GetFieldID(env,clazz,"name", "Ljava/lang/String;");
+    // 3. 获取实例变量 name 的值
+    jstring name = (jstring)(*env)->GetObjectField(env,student,name_fid);
+    // 4. 将unicode编码的java字符串转换成C风格字符串
+    const char *c_name = NULL;
+    c_name = (*env)->GetStringUTFChars(env,name,NULL);
+    LOGD( "c_name=%s", c_name);
+    (*env)->ReleaseStringUTFChars(env, name, c_name);
+    // 5. 修改实例变量str的值
+    jstring j_newName = (*env)->NewStringUTF(env, "李四");
+    (*env)->SetObjectField(env, student, name_fid, j_newName);
 
-    //studentFieldIds.age = (*env)->GetFieldID(env, studentFieldIds.studentClass, "age", "I");
-     // change the 'age' value of student
-    //(*env)->SetIntField(env, student, studentFieldIds.age, 20);
     return student;
 }
 
