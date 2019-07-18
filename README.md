@@ -55,6 +55,11 @@ JavaVM是虚拟机在JNI中的表示，一个JVM中只有一个JavaVM对象，�
  -d 表示将编译后的 class 文件放到指定的目录下
 3、用 javah -jni 命令，根据class字节码文件生成.h头文件（-jni 参数是可选的）
  javah -jni -classpath /Users/v_maqinglong/Documents/AndroidProject/JniGuide/app/src/main/java/ -d ./ com.norman.app.NativeUtil
+同时编译多个类：
+    javac /Users/v_maqinglong/Documents/AndroidProject/JniGuide/app/src/main/java/com/norman/app/jni/*.java -d /Users/v_maqinglong/Documents/AndroidProject/JniGuide/app/src/main/java/com/norman/app/jni
+    javah -jni -classpath /Users/v_maqinglong/Documents/AndroidProject/JniGuide/app/src/main/java/ -d ./ com.norman.app.jni.NativeUtil
+
+
 ###JNIEXPORT和JNICALL
 宏，定义在NDK_ROOT / platforms / android-9 / arch-arm / usr / include / jni.h
 简单理解：说明该函数为JNI函数，在Java虚拟机加载的时候会链接对应的native方法，将函数添加到动态表中
