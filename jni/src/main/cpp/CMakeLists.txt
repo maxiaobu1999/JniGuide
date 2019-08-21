@@ -30,7 +30,7 @@ target_link_libraries(hello-jni
         ${log-lib}
 )
 
-# 添加 math 子目录
+# 添加 internal 子目录
 add_subdirectory(internal)
 
 
